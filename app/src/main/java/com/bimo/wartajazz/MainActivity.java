@@ -1,5 +1,6 @@
 package com.bimo.wartajazz;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
@@ -74,8 +75,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new SettingFragment()).commit();
                 break;
             case R.id.nav_logout:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new LogoutFragment()).commit();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

@@ -122,7 +122,8 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:padding="16dp"
-                android:text="New here? Sing Up"
+                android:id="@+id/register"
+                android:text="New here? Sign Up"
                 android:textColor="#fff" />
 
         </LinearLayout>

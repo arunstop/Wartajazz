@@ -9,10 +9,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class LoginActivity extends Activity {
 
     private Button login;
-    private TextView user,pass;
+    private EditText user,pass;
+    private TextView register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,7 @@ public class LoginActivity extends Activity {
         login = (Button) findViewById(R.id.login);
         user = (EditText) findViewById(R.id.user);
         pass = (EditText) findViewById(R.id.pass);
+        register = (TextView) findViewById(R.id.register);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +37,15 @@ public class LoginActivity extends Activity {
                     Toast.makeText(LoginActivity.this, "User/Passwowrd Salah",
                             Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        register.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(register);
+                finish();
             }
         });
     }

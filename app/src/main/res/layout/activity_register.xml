@@ -27,16 +27,19 @@
                 android:src="@drawable/ic_directions_bike_black_24dp" />
 
             <EditText
+                android:id="@+id/firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
                 android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_profile_white"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:hint="First Name"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <View
@@ -45,16 +48,19 @@
                 android:background="#f9d7db" />
 
             <EditText
+                android:id="@+id/lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_profile_white"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:hint="Last Name"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <View
@@ -63,16 +69,19 @@
                 android:background="#f9d7db" />
 
             <EditText
+                android:id="@+id/userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_person_white_24dp"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:hint="Username"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <View
@@ -81,16 +90,19 @@
                 android:background="#f9d7db" />
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_lock_white_24dp"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <View
@@ -99,16 +111,19 @@
                 android:background="#f9d7db" />
 
             <EditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_email_white"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <View
@@ -117,16 +132,19 @@
                 android:background="#f9d7db" />
 
             <EditText
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_phone_white"
                 android:drawablePadding="12dp"
                 android:ems="10"
-                android:hint="Telp"
-                android:inputType="text"
+                android:hint="Phone"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <View
@@ -135,16 +153,19 @@
                 android:background="#f9d7db" />
 
             <EditText
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_place_white"
                 android:drawablePadding="12dp"
                 android:ems="10"
-                android:hint="Alamat"
+                android:hint="Address"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <View
@@ -153,6 +174,7 @@
                 android:background="#f9d7db" />
 
             <Button
+                android:id="@+id/register"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,12 +188,12 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/login"
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:clickable="true"
-                android:id="@+id/login"
                 android:padding="16dp"
                 android:text="Already have an account? Log in"
                 android:textColor="#fff" />

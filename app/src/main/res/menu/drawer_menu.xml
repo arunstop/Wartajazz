@@ -12,17 +12,17 @@
         <item
             android:id="@+id/nav_berita"
             android:icon="@drawable/ic_berita"
-            android:title="Berita" />
+            android:title="News Feed" />
 
         <item
             android:id="@+id/nav_event"
             android:icon="@drawable/ic_event"
-            android:title="Event" />
+            android:title="Events" />
 
         <item
             android:id="@+id/nav_video"
             android:icon="@drawable/ic_video"
-            android:title="Video" />
+            android:title="Videos" />
 
         <item
             android:id="@+id/nav_profile"

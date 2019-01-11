@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new SettingFragment()).commit();
                 break;
             case R.id.nav_logout:
+                SharedPrefManager.getInstance(MainActivity.this).clear();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

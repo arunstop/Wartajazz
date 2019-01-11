@@ -20,8 +20,10 @@ public interface Api {
             @Field("username") String username,
             @Field("password") String password,
             @Field("email") String email,
-            @Field("fullname") String fullname,
-            @Field("phone") String phone
+            @Field("firstname") String firstname,
+            @Field("lastname") String lastname,
+            @Field("phone") String phone,
+            @Field("address") String address
     );
 
     @FormUrlEncoded

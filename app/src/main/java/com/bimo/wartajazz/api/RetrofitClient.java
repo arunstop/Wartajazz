@@ -11,8 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    // private static final String BASE_URL = "http://tempatin.000webhostapp.com/Api/";
-    private static final String BASE_URL = "http://100.127.255.253/wartajazz-api-master/Api/";
+    private static final String BASE_URL = "http://wartajazz.000webhostapp.com/Api/";
+    //    private static final String BASE_URL = "http://100.127.255.253/wartajazz-api-master/Api/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 

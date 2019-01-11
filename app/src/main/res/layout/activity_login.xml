@@ -90,31 +90,31 @@
                 android:text="Forget your Password?"
                 android:textColor="#fff" />
 
-            <Button
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/background_login_facebook"
-                android:clickable="true"
-                android:padding="16dp"
-                android:text="Log in with Facebook"
-                android:textAllCaps="false"
-                android:textColor="#fff"
-                android:textSize="18sp" />
+            <!--<Button-->
+                <!--style="@style/Base.TextAppearance.AppCompat.Body1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:background="@drawable/background_login_facebook"-->
+                <!--android:clickable="true"-->
+                <!--android:padding="16dp"-->
+                <!--android:text="Log in with Facebook"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:textColor="#fff"-->
+                <!--android:textSize="18sp" />-->
 
-            <Button
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/background_login_google"
-                android:clickable="true"
-                android:padding="16dp"
-                android:text="Log in with Google"
-                android:textAllCaps="false"
-                android:textColor="#fff"
-                android:textSize="18sp" />
+            <!--<Button-->
+                <!--style="@style/Base.TextAppearance.AppCompat.Body1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:background="@drawable/background_login_google"-->
+                <!--android:clickable="true"-->
+                <!--android:padding="16dp"-->
+                <!--android:text="Log in with Google"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:textColor="#fff"-->
+                <!--android:textSize="18sp" />-->
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"

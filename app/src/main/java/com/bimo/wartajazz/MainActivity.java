@@ -11,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bimo.wartajazz.fragment.HomeFragment;
 import com.bimo.wartajazz.fragment.BeritaFragment;
@@ -19,6 +22,7 @@ import com.bimo.wartajazz.fragment.LogoutFragment;
 import com.bimo.wartajazz.fragment.ProfileFragment;
 import com.bimo.wartajazz.fragment.SettingFragment;
 import com.bimo.wartajazz.fragment.VideoFragment;
+import com.bimo.wartajazz.storage.SharedPrefManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -33,6 +37,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView username = (TextView) headerView.findViewById(R.id.user_name);
+        TextView useremail = (TextView) headerView.findViewById(R.id.user_email);
+
+        username.setText(SharedPrefManager.getInstance(this).getUser().getFullname());
+        useremail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
+
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawer, toolbar,

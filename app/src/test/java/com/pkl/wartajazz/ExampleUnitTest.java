@@ -1,4 +1,4 @@
-package com.bimo.wartajazz;
+package com.pkl.wartajazz;
 
 import org.junit.Test;
 

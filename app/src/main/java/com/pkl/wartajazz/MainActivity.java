@@ -1,4 +1,4 @@
-package com.bimo.wartajazz;
+package com.pkl.wartajazz;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,17 +15,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bimo.wartajazz.fragment.HomeFragment;
-import com.bimo.wartajazz.fragment.BeritaFragment;
-import com.bimo.wartajazz.fragment.EventFragment;
-import com.bimo.wartajazz.fragment.LogoutFragment;
-import com.bimo.wartajazz.fragment.ProfileFragment;
-import com.bimo.wartajazz.fragment.SettingFragment;
-import com.bimo.wartajazz.fragment.VideoFragment;
-import com.bimo.wartajazz.storage.SharedPrefManager;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.pkl.wartajazz.fragment.HomeFragment;
+import com.pkl.wartajazz.fragment.BeritaFragment;
+import com.pkl.wartajazz.fragment.EventFragment;
+import com.pkl.wartajazz.fragment.LogoutFragment;
+import com.pkl.wartajazz.fragment.ProfileFragment;
+import com.pkl.wartajazz.fragment.SettingFragment;
+import com.pkl.wartajazz.fragment.VideoFragment;
+import com.pkl.wartajazz.storage.SharedPrefManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    public static final String GOOGLE_ACCOUNT = "google_account";
+    public static final GoogleSignInAccount googleSignInAccount = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headerView = navigationView.getHeaderView(0);
         TextView username = (TextView) headerView.findViewById(R.id.user_name);
         TextView useremail = (TextView) headerView.findViewById(R.id.user_email);
+        CircularImageView thumbnail = (CircularImageView) headerView.findViewById(R.id.thumbnail);
+        RequestOptions option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
 
         username.setText(SharedPrefManager.getInstance(this).getUser().getFullname());
         useremail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
+        Glide.with(this).load(SharedPrefManager.getInstance(this).getUser().getThumbnail()).apply(option).into(thumbnail);
 
         navigationView.setNavigationItemSelectedListener(this);
 

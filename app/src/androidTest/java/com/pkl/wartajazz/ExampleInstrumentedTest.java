@@ -1,4 +1,4 @@
-package com.bimo.wartajazz;
+package com.pkl.wartajazz;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

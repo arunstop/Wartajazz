@@ -1,4 +1,4 @@
-package com.bimo.wartajazz.fragment;
+package com.pkl.wartajazz.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.view.ViewPager;
 
-import com.bimo.wartajazz.R;
-import com.bimo.wartajazz.adapter.CustomSwipeAdapter;
+import com.pkl.wartajazz.R;
+import com.pkl.wartajazz.adapter.CustomSwipeAdapter;
 
 public class HomeFragment extends Fragment {
 

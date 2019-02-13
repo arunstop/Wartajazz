@@ -1,4 +1,4 @@
-package com.bimo.wartajazz;
+package com.pkl.wartajazz;
 
 import android.app.Activity;
 import android.content.Intent;

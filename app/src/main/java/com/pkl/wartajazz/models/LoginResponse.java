@@ -1,4 +1,4 @@
-package com.bimo.wartajazz.models;
+package com.pkl.wartajazz.models;
 
 public class LoginResponse {
 

@@ -12,8 +12,8 @@
         android:gravity="center">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:src="@mipmap/ic_launcher_round" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:textSize="10dp"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:text="Edit Profile" />
 
     </LinearLayout>
@@ -34,25 +34,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
         <TextView
+            android:id="@+id/user-name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Username" />
+            android:paddingTop="8dp"
+            android:text="Warta Jazz"
+            android:textColor="#FFFFFF"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:background="#f9d7db" />
 
         <TextView
+            android:id="@+id/user-email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Password" />
+            android:paddingTop="8dp"
+            android:text="warta@jazz.com"
+            android:textColor="#FFFFFF"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <View
             android:layout_width="match_parent"

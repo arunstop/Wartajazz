@@ -1,7 +1,7 @@
-package com.bimo.wartajazz.api;
+package com.pkl.wartajazz.api;
 
-import com.bimo.wartajazz.models.LoginResponse;
-import com.bimo.wartajazz.models.SignupResponse;
+import com.pkl.wartajazz.models.LoginResponse;
+import com.pkl.wartajazz.models.SignupResponse;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -31,6 +31,15 @@ public interface Api {
     Call<LoginResponse> userLogin(
             @Field("username") String username,
             @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("Auth/googleAuth")
+    Call<LoginResponse> googleAuth(
+            @Field("providerId") String providerId,
+            @Field("email") String email,
+            @Field("displayName") String displayName,
+            @Field("thumbnail") String thumbnail
     );
 
 }

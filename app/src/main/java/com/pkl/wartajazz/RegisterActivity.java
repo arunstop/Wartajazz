@@ -1,4 +1,4 @@
-package com.bimo.wartajazz;
+package com.pkl.wartajazz;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bimo.wartajazz.api.RetrofitClient;
-import com.bimo.wartajazz.models.SignupResponse;
+import com.pkl.wartajazz.api.RetrofitClient;
+import com.pkl.wartajazz.models.SignupResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

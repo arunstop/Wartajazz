@@ -1,9 +1,9 @@
-package com.bimo.wartajazz.storage;
+package com.pkl.wartajazz.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.bimo.wartajazz.models.User;
+import com.pkl.wartajazz.models.User;
 
 
 public class SharedPrefManager {
@@ -36,6 +36,8 @@ public class SharedPrefManager {
         editor.putString("fullname", user.getFullname());
         editor.putString("phone", user.getPhone());
         editor.putString("join_date", user.getJoin_date());
+        editor.putInt("role", user.getRole());
+        editor.putString("thumbnail", user.getThumbnail());
 
         editor.apply();
 
@@ -53,7 +55,9 @@ public class SharedPrefManager {
                 sharedPreferences.getString("email", null),
                 sharedPreferences.getString("fullname", null),
                 sharedPreferences.getString("phone", null),
-                sharedPreferences.getString("join_date", null)
+                sharedPreferences.getString("join_date", null),
+                sharedPreferences.getInt("role", -1),
+                sharedPreferences.getString("thumbnail", null)
         );
     }
 

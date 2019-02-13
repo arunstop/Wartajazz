@@ -1,18 +1,26 @@
-package com.bimo.wartajazz;
+package com.pkl.wartajazz;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bimo.wartajazz.api.RetrofitClient;
-import com.bimo.wartajazz.models.LoginResponse;
-import com.bimo.wartajazz.storage.SharedPrefManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.pkl.wartajazz.api.RetrofitClient;
+import com.pkl.wartajazz.models.LoginResponse;
+import com.pkl.wartajazz.storage.SharedPrefManager;
 
 import org.w3c.dom.Text;
 
@@ -22,9 +30,10 @@ import retrofit2.Response;
 
 public class LoginActivity extends Activity {
 
-    private Button login;
+    private Button login, googleLogin;
     private EditText editTextUsername, editTextPassword;
     private TextView register;
+    private GoogleSignInClient googleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         login = (Button) findViewById(R.id.login);
+        googleLogin = (Button) findViewById(R.id.google_login);
         editTextUsername = (EditText) findViewById(R.id.user);
         editTextPassword = (EditText) findViewById(R.id.pass);
         register = (TextView) findViewById(R.id.register);
@@ -108,6 +118,21 @@ public class LoginActivity extends Activity {
                 finish();
             }
         });
+
+        // google login
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+        googleLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
+
     }
 
     @Override
@@ -118,5 +143,71 @@ public class LoginActivity extends Activity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case 101:
+                    try {
+                        // The Task returned from this call is always completed, no need to attach
+                        // a listener.
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        onLoggedIn(account);
+                    } catch (ApiException e) {
+                        // The ApiException status code indicates the detailed failure reason.
+                        Log.w("Google Login", "signInResult:failed code=" + e.getStatusCode());
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
+        Uri photoUrl = googleSignInAccount.getPhotoUrl();
+        String provider_id = googleSignInAccount.getId();
+        String email = googleSignInAccount.getEmail();
+        String name = googleSignInAccount.getDisplayName();
+        String thumbnail = photoUrl.toString();
+
+        Call<LoginResponse> call = RetrofitClient.getInstance().getApi().googleAuth(provider_id, email, name, thumbnail);
+
+        // Set up progress before call
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(LoginActivity.this);
+        progressDoalog.setMessage("Processing....");
+        progressDoalog.setIndeterminate(false);
+        progressDoalog.setCancelable(false);
+        // show it
+        progressDoalog.show();
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+
+                if (!loginResponse.isError()) {
+                    SharedPrefManager.getInstance(LoginActivity.this)
+                            .saveUser(loginResponse.getUser());
+
+                    progressDoalog.dismiss();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                } else {
+                    progressDoalog.dismiss();
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                progressDoalog.dismiss();
+                System.out.println("Failure");
+            }
+        });
     }
 }

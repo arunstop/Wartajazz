@@ -1,4 +1,4 @@
-package com.bimo.wartajazz.adapter;
+package com.pkl.wartajazz.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bimo.wartajazz.R;
+import com.pkl.wartajazz.R;
 
 public class CustomSwipeAdapter extends PagerAdapter {
     private int[] image_resource = {R.drawable.slide, R.drawable.slide2, R.drawable.slide3, R.drawable.slide4};

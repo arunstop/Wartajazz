@@ -5,12 +5,12 @@ public class User {
     private int id, role;
     private String email, join_date, fullname, phone, thumbnail;
 
-    public User(int user_id, String email, String fullname, String phone, String joni_date, int role, String thumbnail) {
+    public User(int user_id, String email, String fullname, String phone_number, String join_date, int role, String thumbnail) {
         this.id = user_id;
         this.email = email;
         this.fullname = fullname;
-        this.phone = phone;
-        this.join_date = joni_date;
+        this.phone = phone_number;
+        this.join_date = join_date;
         this.role = role;
         this.thumbnail = thumbnail;
     }

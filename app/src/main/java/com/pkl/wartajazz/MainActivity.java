@@ -1,5 +1,6 @@
 package com.pkl.wartajazz;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
@@ -14,10 +15,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.pkl.wartajazz.fragment.HomeFragment;
 import com.pkl.wartajazz.fragment.BeritaFragment;
@@ -30,8 +40,8 @@ import com.pkl.wartajazz.storage.SharedPrefManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    public static final String GOOGLE_ACCOUNT = "google_account";
-    public static final GoogleSignInAccount googleSignInAccount = null;
+    private int role_id;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CircularImageView thumbnail = (CircularImageView) headerView.findViewById(R.id.thumbnail);
         RequestOptions option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
 
+        role_id = SharedPrefManager.getInstance(this).getUser().getRole();
         username.setText(SharedPrefManager.getInstance(this).getUser().getFullname());
         useremail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
         Glide.with(this).load(SharedPrefManager.getInstance(this).getUser().getThumbnail()).apply(option).into(thumbnail);
@@ -95,6 +106,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new SettingFragment()).commit();
                 break;
             case R.id.nav_logout:
+                if (role_id == 3) {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                            new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(Status status) {
+                                    SharedPrefManager.getInstance(MainActivity.this).clear();
+                                }
+                            });
+                }
                 SharedPrefManager.getInstance(MainActivity.this).clear();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -112,5 +132,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
     }
 }

@@ -1,6 +1,7 @@
 package com.pkl.wartajazz.api;
 
 import com.pkl.wartajazz.models.LoginResponse;
+import com.pkl.wartajazz.models.Obj;
 import com.pkl.wartajazz.models.SignupResponse;
 
 import retrofit2.Call;
@@ -10,6 +11,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Api {
 
@@ -42,4 +44,7 @@ public interface Api {
             @Field("thumbnail") String thumbnail
     );
 
+    //WARNING! : Only Call this method using RetrofitRssClient
+    @GET("api.json")
+    Call<Obj> getFeed(@Query("rss_url") String url);
 }

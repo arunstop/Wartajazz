@@ -29,6 +29,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.pkl.wartajazz.api.RetrofitClient;
 import com.pkl.wartajazz.models.LoginResponse;
+import com.pkl.wartajazz.models.User;
 import com.pkl.wartajazz.storage.SharedPrefManager;
 
 import org.w3c.dom.Text;
@@ -141,32 +142,46 @@ public class LoginActivity extends Activity {
                 progressDoalog.setCancelable(false);
                 // show it
                 progressDoalog.show();
+                //bypass login
+                SharedPrefManager.getInstance(LoginActivity.this)
+                        .saveUser(new User(1
+                                , "bypass@bypass.com"
+                                , "Tresspasser"
+                                , "0123456789"
+                                , "2019-09-09"
+                                , 1
+                                , "123"));
 
-                call.enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        LoginResponse loginResponse = response.body();
+                progressDoalog.dismiss();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
 
-                        if (!loginResponse.isError()) {
-                            SharedPrefManager.getInstance(LoginActivity.this)
-                                    .saveUser(loginResponse.getUser());
-
-                            progressDoalog.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                        } else {
-                            progressDoalog.dismiss();
-                            Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        progressDoalog.dismiss();
-                        System.out.println("Failure");
-                    }
-                });
+//                call.enqueue(new Callback<LoginResponse>() {
+//                    @Override
+//                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                        LoginResponse loginResponse = response.body();
+//
+//                        if (!loginResponse.isError()) {
+//                            SharedPrefManager.getInstance(LoginActivity.this)
+//                                    .saveUser(loginResponse.getUser());
+//
+//                            progressDoalog.dismiss();
+//                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(intent);
+//                        } else {
+//                            progressDoalog.dismiss();
+//                            Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+//                        progressDoalog.dismiss();
+//                        System.out.println("Failure");
+//                    }
+//                });
             }
         });
 
@@ -259,30 +274,45 @@ public class LoginActivity extends Activity {
         // show it
         progressDoalog.show();
 
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                LoginResponse loginResponse = response.body();
+        //bypass login
+        SharedPrefManager.getInstance(LoginActivity.this)
+                .saveUser(new User(1
+                        , "bypass@bypass.com"
+                        , "Tresspasser"
+                        , "0123456789"
+                        , "2019-09-09"
+                        , 1
+                        , "123"));
 
-                if (!loginResponse.isError()) {
-                    SharedPrefManager.getInstance(LoginActivity.this)
-                            .saveUser(loginResponse.getUser());
+        progressDoalog.dismiss();
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
 
-                    progressDoalog.dismiss();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                } else {
-                    progressDoalog.dismiss();
-                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                progressDoalog.dismiss();
-                System.out.println("Failure");
-            }
-        });
+//        call.enqueue(new Callback<LoginResponse>() {
+//            @Override
+//            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                LoginResponse loginResponse = response.body();
+//
+//                if (!loginResponse.isError()) {
+//                    SharedPrefManager.getInstance(LoginActivity.this)
+//                            .saveUser(loginResponse.getUser());
+//
+//                    progressDoalog.dismiss();
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    startActivity(intent);
+//                } else {
+//                    progressDoalog.dismiss();
+//                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<LoginResponse> call, Throwable t) {
+//                progressDoalog.dismiss();
+//                System.out.println("Failure");
+//            }
+//        });
     }
 }

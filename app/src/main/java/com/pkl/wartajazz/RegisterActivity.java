@@ -108,10 +108,11 @@ public class RegisterActivity extends Activity {
                     return;
                 }
 
+                String fullname = firstname + " " + lastname;
                 Call<SignupResponse> call = RetrofitClient
                         .getInstance()
                         .getApi()
-                        .createUser(username, password, email, firstname, lastname, phone, address);
+                        .createUser(username, password, email, fullname, phone, address);
 
 
                 final ProgressDialog progressDoalog;

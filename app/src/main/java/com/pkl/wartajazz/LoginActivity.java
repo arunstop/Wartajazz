@@ -2,6 +2,7 @@ package com.pkl.wartajazz;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.pkl.wartajazz.api.RetrofitClient;
 import com.pkl.wartajazz.models.LoginResponse;
 import com.pkl.wartajazz.storage.SharedPrefManager;
@@ -32,12 +34,14 @@ public class LoginActivity extends Activity {
     private EditText editTextUsername, editTextPassword;
     private TextView tvRegister;
     private GoogleSignInClient googleSignInClient;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        context = LoginActivity.this;
         login = findViewById(R.id.login);
         googleLogin = findViewById(R.id.google_login);
         editTextUsername = findViewById(R.id.user);
@@ -47,6 +51,10 @@ public class LoginActivity extends Activity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                final String token = FirebaseInstanceId.getInstance().getToken();
+                SharedPrefManager.getInstance(context).saveDeviceToken(token);
+                System.out.println("ATTA-token : "+token);
 
                 String username = editTextUsername.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
@@ -69,7 +77,7 @@ public class LoginActivity extends Activity {
                     return;
                 }
 
-                Call<LoginResponse> call = RetrofitClient.getInstance().getApi().userLogin(username, password);
+                Call<LoginResponse> call = RetrofitClient.getInstance().getApi().userLogin(username, password,token);
 
                 // Set up progress before call
                 final ProgressDialog progressDoalog;

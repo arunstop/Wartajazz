@@ -34,7 +34,8 @@ public interface Api {
     @POST("Auth/login")
     Call<LoginResponse> userLogin(
             @Field("username") String username,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("token") String token
     );
 
     @FormUrlEncoded

@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.pkl.wartajazz.api.RetrofitClient;
 import com.pkl.wartajazz.models.SignupResponse;
+import com.pkl.wartajazz.storage.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +60,11 @@ public class RegisterActivity extends Activity {
                 String lastname = editlastName.getText().toString().trim();
                 String phone = editPhone.getText().toString().trim();
                 String address = editAddress.getText().toString().trim();
+
+                final String token = FirebaseInstanceId.getInstance().getToken();
+                SharedPrefManager.getInstance(RegisterActivity.this).saveDeviceToken(token);
+                System.out.println("ATTA-token : "+token);
+
 
                 if (username.isEmpty()) {
                     editUsername.setError("Username required");

@@ -4,6 +4,8 @@ import com.pkl.wartajazz.models.LoginResponse;
 import com.pkl.wartajazz.models.Obj;
 import com.pkl.wartajazz.models.SignupResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -44,7 +46,9 @@ public interface Api {
             @Field("thumbnail") String thumbnail
     );
 
+
     //WARNING! : Only Call this method using RetrofitRssClient
     @GET("api.json")
     Call<Obj> getFeed(@Query("rss_url") String url);
+
 }

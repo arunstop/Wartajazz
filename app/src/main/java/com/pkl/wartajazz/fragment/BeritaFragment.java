@@ -10,16 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.pkl.wartajazz.R;
-import com.pkl.wartajazz.api.RetrofitClient;
 import com.pkl.wartajazz.api.RetrofitRssClient;
 import com.pkl.wartajazz.models.Item;
 import com.pkl.wartajazz.models.Obj;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -30,11 +29,13 @@ import retrofit2.Response;
 public class BeritaFragment extends Fragment {
 
     private View view;
+    private ProgressBar pbLoading;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_berita, container, false);
+        pbLoading = view.findViewById(R.id.pbLoading);
 
 
         setNewsItem();
@@ -59,32 +60,41 @@ public class BeritaFragment extends Fragment {
 //                Toast.makeText(getActivity(), obj.getStatus(), Toast.LENGTH_SHORT).show();
 
 
-                LinearLayout itemContainer = (LinearLayout) view.findViewById(R.id.itemContainer);
+                LinearLayout itemContainer = view.findViewById(R.id.itemContainer);
                 itemContainer.removeAllViews();
 
                 List<Item> itemResult = obj.getItem();
                 for (final Item item : itemResult) {
 
-                    LinearLayout newsView = (LinearLayout) getLayoutInflater().inflate(R.layout.news_item, null);
+                    LinearLayout newsView = (LinearLayout) getLayoutInflater().inflate(R.layout.template_item_news, null);
                     LinearLayout newsItem = newsView.findViewById(R.id.newsItem);
                     TextView newsTitle = newsView.findViewById(R.id.newsTitle);
                     ImageView newsThumbnail = newsView.findViewById(R.id.newsThumbnail);
 
+
                     newsItem.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent newWindow = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getLink()));
+                            Intent newWindow = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getLink()) );
+                            //parsing link to WebActivity
+//                            newWindow.putExtra("url", item.getLink());
                             startActivity(newWindow);
                         }
                     });
 
+
+
                     //MENGGANTI GAMBAR DENGAN PLUG IN PICASSO
-                    RequestOptions option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
-                    Glide.with(getActivity()).load(item.getThumbnail()).apply(option).into(newsThumbnail);
+                    if(item.getThumbnail().equals("")){
+
+                    }else{
+                        Picasso.with(getActivity()).load(item.getThumbnail()).into(newsThumbnail);
+                    }
                     newsTitle.setText(item.getTitle());
                     itemContainer.addView(newsView);
 
                 }
+                pbLoading.setVisibility(View.GONE);
             }
 
             @Override

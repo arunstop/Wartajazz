@@ -22,13 +22,15 @@ public class RegisterActivity extends Activity {
 
     private Button register;
     private EditText editfirstName, editlastName, editEmail, editUsername, editPassword, editPhone, editAddress;
+    private TextView tvLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        register = (Button) findViewById(R.id.register);
+        tvLogin = findViewById(R.id.login);
+        register = findViewById(R.id.register);
         editfirstName = findViewById(R.id.firstName);
         editlastName = findViewById(R.id.lastName);
         editEmail = findViewById(R.id.email);
@@ -36,6 +38,15 @@ public class RegisterActivity extends Activity {
         editPassword = findViewById(R.id.password);
         editPhone = findViewById(R.id.phone);
         editAddress = findViewById(R.id.address);
+
+        tvLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(login);
+                finish();
+            }
+        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

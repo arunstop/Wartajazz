@@ -17,15 +17,24 @@
             android:src="@mipmap/ic_launcher_round" />
 
         <TextView
+            android:id="@+id/tvName"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Nama" />
 
         <Button
+            android:clickable="true"
+            android:layout_marginTop="12dp"
+            android:padding="18dp"
             android:id="@+id/button"
             android:layout_width="wrap_content"
-            android:textSize="10dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_border_white"
             android:layout_height="wrap_content"
             android:text="Edit Profile" />
 

@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Warta Jazz</string>
-
+    <string name="app_name">WartaJazz</string>
     <string name="navigation_drawer_open">Open Navigation drawer</string>
     <string name="navigation_drawer_close">Close Navigation drawer</string>
     <string name="client_id">298117360351-f32lmje6jr9lou7qn17v7966mo5r2tg0.apps.googleusercontent.com</string>

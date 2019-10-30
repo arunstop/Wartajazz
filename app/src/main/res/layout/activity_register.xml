@@ -183,7 +183,8 @@
                 android:padding="16dp"
                 android:text="Sign Up"
                 android:textAllCaps="false"
-                android:textColor="#f16f7d"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
 
             <TextView

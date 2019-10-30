@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
+            navigationView.setCheckedItem(R.id.nav_berita);
         }
 
 
@@ -82,10 +82,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new HomeFragment()).commit();
-                break;
+//            case R.id.nav_home:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        new HomeFragment()).commit();
+//                break;
             case R.id.nav_berita:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new BeritaFragment()).commit();
@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
                 break;
-            case R.id.nav_setting:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new SettingFragment()).commit();
-                break;
+//            case R.id.nav_setting:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        new SettingFragment()).commit();
+//                break;
             case R.id.nav_logout:
                 SharedPrefManager.getInstance(MainActivity.this).clear();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);

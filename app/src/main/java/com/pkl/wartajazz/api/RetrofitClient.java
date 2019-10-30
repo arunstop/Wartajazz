@@ -13,7 +13,6 @@ public class RetrofitClient {
 
         private static final String BASE_URL = "http://wartajazz.000webhostapp.com/Api/";
 //    private static final String BASE_URL = "http://192.168.66.11/wartajazz-api-master/Api/";
-    private static final String RSS_URL ="https://api.rss2json.com/v1/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 

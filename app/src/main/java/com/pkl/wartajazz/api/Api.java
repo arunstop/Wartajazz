@@ -20,6 +20,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("Auth/register")
+//    @POST("RegisterDevice.php")
     Call<SignupResponse> createUser(
             @Field("username") String username,
             @Field("password") String password,

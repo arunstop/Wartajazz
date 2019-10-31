@@ -31,6 +31,7 @@ public class EventFragment extends Fragment {
     private Context context;
     private LinearLayout llEventContainer;
     private ProgressBar pbLoading;
+    private int fragmentContainer;
 
     @Nullable
     @Override
@@ -38,7 +39,9 @@ public class EventFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_event, container, false);
         context = getActivity();
         llEventContainer = view.findViewById(R.id.llEventContainer);
+        fragmentContainer = R.id.fragment_container;
         pbLoading = view.findViewById(R.id.pbLoading);
+
         showEvents();
         return view;
     }
@@ -46,8 +49,6 @@ public class EventFragment extends Fragment {
     private void showEvents() {
         llEventContainer.removeAllViews();
 
-
-        Toast.makeText(context, "EVENTS", Toast.LENGTH_SHORT).show();
         Call<EventResponse> call = RetrofitClient.getInstance().getApi().showEvent();
         call.enqueue(new Callback<EventResponse>() {
             View child;
@@ -56,8 +57,9 @@ public class EventFragment extends Fragment {
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
                 EventResponse eventResponse = response.body();
                 if (response.isSuccessful() && isAdded()) {
-                    for (Event eventData : eventResponse.getEvent()) {
+                    for (final Event eventData : eventResponse.getEvent()) {
                         child = getLayoutInflater().inflate(R.layout.template_item_event, null);
+                        LinearLayout llEventItem = child.findViewById(R.id.llEventItem);
                         TextView tvEventTitle = child.findViewById(R.id.tvEventTitle);
                         ImageView ivEventPoster = child.findViewById(R.id.ivEventPoster);
                         TextView tvEventLocation = child.findViewById(R.id.tvEventLocation);
@@ -66,12 +68,23 @@ public class EventFragment extends Fragment {
 
                         tvEventTitle.setText(eventData.getEvent_name());
                         if (!ivEventPoster.equals("")) {
-                            Picasso.with(context).load(eventData.getPoster()).into(ivEventPoster);
+                            Picasso.with(context).load(eventData.getPoster()).fit().into(ivEventPoster);
                         }
                         tvEventLocation.setText(eventData.getLocation());
                         tvEventPrice.setText(eventData.getHtm());
                         tvEventDuration.setText(eventData.getDate_start()+"\n"+eventData.getDate_end());
 
+                        llEventItem.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EventDetailFragment edf = new EventDetailFragment();
+                                edf.setEvent_id(eventData.getEvent_id());
+                                getFragmentManager()
+                                        .beginTransaction()
+                                        .addToBackStack("fragmentStack")
+                                        .replace(fragmentContainer, edf).commit();
+                            }
+                        });
                         llEventContainer.addView(child);
                     }
 

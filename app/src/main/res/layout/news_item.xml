@@ -11,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:id="@+id/newsItem"
+        android:id="@+id/llNewsItem"
         android:clickable="true">
 
         <ImageView
-            android:id="@+id/newsThumbnail"
+            android:id="@+id/tvNewsThumbnail"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
@@ -28,7 +28,7 @@
 
 
         <TextView
-            android:id="@+id/newsTitle"
+            android:id="@+id/tvNewsTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"

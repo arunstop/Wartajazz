@@ -50,13 +50,13 @@ public class MyNotificationManager {
         bigPictureStyle.bigPicture(getBitmapFromURL(url));
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx);
         Notification notification;
-        notification = mBuilder.setSmallIcon(R.drawable.icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setSmallIcon(R.drawable.wartajazz).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
                 .setStyle(bigPictureStyle)
-                .setSmallIcon(R.drawable.icon)
-                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.icon))
+                .setSmallIcon(R.drawable.wartajazz)
+                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.wartajazz))
                 .setContentText(message)
                 .build();
 

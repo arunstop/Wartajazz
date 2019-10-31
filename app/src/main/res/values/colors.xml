@@ -6,4 +6,5 @@
     <color name="colorAccent">#f9671e</color>
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorBackground">#fafafa</color>
+    <color name="colorRed">@android:color/holo_red_light</color>
 </resources>

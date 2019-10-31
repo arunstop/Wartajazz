@@ -11,12 +11,13 @@
             android:id="@+id/llEventContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:orientation="vertical">
+            android:paddingBottom="12dp">
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
     <ProgressBar
         android:id="@+id/pbLoading"
         android:layout_width="match_parent"

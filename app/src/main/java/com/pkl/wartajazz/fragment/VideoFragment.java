@@ -48,7 +48,10 @@ public class VideoFragment extends Fragment {
         llVideoContainer = view.findViewById(R.id.llVideoContainer);
         pbLoading = view.findViewById(R.id.pbLoading);
 
-        showVideos();
+
+        if (isAdded()) {
+            showVideos();
+        }
         return view;
     }
 
@@ -107,7 +110,7 @@ public class VideoFragment extends Fragment {
 
                         tvVideoTitle.setText(videoTitle);
                         if (!videoThumbnail.equals("")) {
-                            Picasso.with(getActivity()).load(videoThumbnail).into(ivVideoThumbnail);
+                            Picasso.with(getActivity()).load(videoThumbnail).fit().centerCrop().into(ivVideoThumbnail);
                         }
 
                         //menambah view pada llVideoContainer(menambah list video)
@@ -127,7 +130,7 @@ public class VideoFragment extends Fragment {
                 error.printStackTrace();
             }
         });
-        int socketTimeout = 30000;
+        int socketTimeout = 6000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         stringRequest.setRetryPolicy(policy);
         requestQueue.add(stringRequest);

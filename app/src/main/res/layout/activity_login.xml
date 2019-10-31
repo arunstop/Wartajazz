@@ -31,18 +31,17 @@
                 <!--android:text="123" />-->
 
             <ImageView
-                android:layout_width="320dp"
-                android:layout_height="130dp"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/logo" />
 
             <EditText
                 android:id="@+id/user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="30dp"
                 android:background="@android:color/transparent"
                 android:drawableLeft="@drawable/ic_person_white_24dp"
                 android:drawablePadding="12dp"
@@ -85,7 +84,7 @@
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/background_login"
                 android:clickable="true"
                 android:padding="16dp"
@@ -99,21 +98,20 @@
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
                 android:clickable="true"
                 android:padding="16dp"
                 android:text="Forget your Password?"
                 android:textColor="#fff" />
 
             <Button
+                android:id="@+id/register"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/background_login_facebook"
                 android:clickable="true"
                 android:padding="16dp"
-                android:text="Log in with Facebook"
+                android:text="Sign Up Now"
                 android:textAllCaps="false"
                 android:textColor="#fff"
                 android:textSize="18sp" />
@@ -131,16 +129,6 @@
                 android:textAllCaps="false"
                 android:textColor="#fff"
                 android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/register"
-                style="@style/TextAppearance.AppCompat.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:padding="16dp"
-                android:text="New here? Sign Up"
-                android:textColor="#fff" />
 
         </LinearLayout>
     </ScrollView>

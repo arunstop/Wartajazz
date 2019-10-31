@@ -1,5 +1,6 @@
 package com.pkl.wartajazz.api;
 
+import com.pkl.wartajazz.models.EventDetail;
 import com.pkl.wartajazz.models.EventResponse;
 import com.pkl.wartajazz.models.LoginResponse;
 import com.pkl.wartajazz.models.Obj;
@@ -28,6 +29,17 @@ public interface Api {
             @Field("email") String email,
             @Field("fullname") String fullname,
             @Field("phone") String phone,
+            @Field("address") String address,
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("Auth/edit")
+    Call<SignupResponse> editUser(
+            @Field("username") String username,
+            @Field("fullname") String fullname,
+            @Field("password") String password,
+            @Field("phone") String phone,
             @Field("address") String address
     );
 
@@ -50,6 +62,9 @@ public interface Api {
 
     @GET("Event")
     Call<EventResponse> showEvent();
+
+    @GET("Event/detail/{event_id}")
+    Call<EventDetail> showDetailEvent(@Path("event_id") String event_id);
 
 
     //WARNING! : Only Call this method using RetrofitRssClient

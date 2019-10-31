@@ -1,28 +1,19 @@
 package com.pkl.wartajazz;
 
-import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,24 +22,23 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.pkl.wartajazz.fragment.HomeFragment;
 import com.pkl.wartajazz.fragment.BeritaFragment;
 import com.pkl.wartajazz.fragment.EventFragment;
-import com.pkl.wartajazz.fragment.LogoutFragment;
 import com.pkl.wartajazz.fragment.ProfileFragment;
-import com.pkl.wartajazz.fragment.SettingFragment;
 import com.pkl.wartajazz.fragment.VideoFragment;
 import com.pkl.wartajazz.storage.SharedPrefManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private DrawerLayout drawer;
     public static final String GOOGLE_ACCOUNT = "google_account";
     public static final GoogleSignInAccount googleSignInAccount = null;
-
+    Toolbar toolbar;
+    private DrawerLayout drawer;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -58,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView useremail = (TextView) headerView.findViewById(R.id.user_email);
         CircularImageView thumbnail = (CircularImageView) headerView.findViewById(R.id.thumbnail);
         RequestOptions option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
+        //builder logout dialog
+        builder = new AlertDialog.Builder(this);
 
         username.setText(SharedPrefManager.getInstance(this).getUser().getFullname());
         useremail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
@@ -73,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_berita);
         }
 
 
@@ -82,35 +73,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.nav_home:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new HomeFragment()).commit();
-//                break;
             case R.id.nav_berita:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new BeritaFragment()).commit();
+                        new BeritaFragment()).addToBackStack("fragmentStack").commit();
+                toolbar.setTitle("Daftar Berita");
                 break;
             case R.id.nav_event:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new EventFragment()).commit();
+                        new EventFragment()).addToBackStack("fragmentStack").commit();
+                toolbar.setTitle("Daftar Event");
                 break;
             case R.id.nav_video:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new VideoFragment()).commit();
+                        new VideoFragment()).addToBackStack("fragmentStack").commit();
+                toolbar.setTitle("Daftar Video");
                 break;
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
+                        new ProfileFragment()).addToBackStack("fragmentStack").commit();
+                toolbar.setTitle("Profile");
                 break;
 //            case R.id.nav_setting:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
 //                        new SettingFragment()).commit();
 //                break;
             case R.id.nav_logout:
-                SharedPrefManager.getInstance(MainActivity.this).clear();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+
+                builder.setTitle("Konfirmasi");
+                builder.setMessage("Apakah anda ingin keluar dari aplikasi?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPrefManager.getInstance(MainActivity.this).clear();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

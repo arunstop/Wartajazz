@@ -3,7 +3,10 @@ package com.pkl.wartajazz.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.pkl.wartajazz.models.EventDetail;
 import com.pkl.wartajazz.models.User;
+
+import java.util.List;
 
 
 public class SharedPrefManager {
@@ -75,6 +78,8 @@ public class SharedPrefManager {
                 sharedPreferences.getString("provider_id", null)
         );
     }
+
+
 
     public void clear() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);

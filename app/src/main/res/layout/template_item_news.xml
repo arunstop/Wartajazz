@@ -3,53 +3,99 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="18dp"
+    android:clipToPadding="false"
     android:orientation="vertical"
-    android:padding="10dp"
-    style="@style/ListItemClickable">
+    android:padding="6dp">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        style="@style/ListItemClickable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/newsItem"
-        android:clickable="true">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp">
 
-        <ImageView
-            android:src="@drawable/ic_news_48dp"
-            android:id="@+id/newsThumbnail"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:maxHeight="100dp"
-            android:maxWidth="100dp"
-            android:minHeight="100dp"
-            android:minWidth="100dp" />
-
-
-        <TextView
-            android:id="@+id/newsTitle"
+        <LinearLayout
+            android:id="@+id/llNewsItem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="3"
-            android:ellipsize="end"
-            android:maxLength="100"
-            android:maxLines="4"
-            android:text="TITLE OF PRODUCT"
-            android:textColor="#000"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="12dp"
+            android:background="@color/colorBackground"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/tvNewsThumbnail"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_news_48dp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="#d3d3d9"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNewsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLength="60"
+                        android:maxLines="3"
+                        android:text="TITLE OF PRODUCT"
+                        android:textColor="@android:color/black"
+                        android:layout_marginBottom="6dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@color/colorAccent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNewsDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:drawableLeft="@drawable/ic_date_black_24dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="center|start"
+                        android:text="2019-09-09"
+                        android:textStyle="bold|italic" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|end"
+                        android:text="Read More.. >>"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold|italic" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>
 
 

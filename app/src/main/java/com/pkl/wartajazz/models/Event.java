@@ -2,6 +2,8 @@ package com.pkl.wartajazz.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Event {
     @SerializedName("event_id")
     String event_id;
@@ -21,8 +23,10 @@ public class Event {
     String htm;
     @SerializedName("poster")
     String poster;
+    @SerializedName("details")
+    List<EventDetail> details;
 
-    public Event(String event_id, String event_name, String location, String date_start, String date_end, String date_create, String author, String htm, String poster) {
+    public Event(String event_id, String event_name, String location, String date_start, String date_end, String date_create, String author, String htm, String poster, List<EventDetail> details) {
         this.event_id = event_id;
         this.event_name = event_name;
         this.location = location;
@@ -32,6 +36,7 @@ public class Event {
         this.author = author;
         this.htm = htm;
         this.poster = poster;
+        this.details = details;
     }
 
     public String getEvent_id() {
@@ -70,4 +75,7 @@ public class Event {
         return poster;
     }
 
+    public List<EventDetail> getDetails() {
+        return details;
+    }
 }

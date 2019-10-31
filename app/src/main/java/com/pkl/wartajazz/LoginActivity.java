@@ -30,9 +30,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends Activity {
 
-    private Button login, googleLogin;
+    private Button login, googleLogin,btnRegister;
     private EditText editTextUsername, editTextPassword;
-    private TextView tvRegister;
     private GoogleSignInClient googleSignInClient;
     private Context context;
 
@@ -46,7 +45,7 @@ public class LoginActivity extends Activity {
         googleLogin = findViewById(R.id.google_login);
         editTextUsername = findViewById(R.id.user);
         editTextPassword = findViewById(R.id.pass);
-        tvRegister = findViewById(R.id.register);
+        btnRegister = findViewById(R.id.register);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +129,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        tvRegister.setOnClickListener(new View.OnClickListener() {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent register = new Intent(LoginActivity.this, RegisterActivity.class);

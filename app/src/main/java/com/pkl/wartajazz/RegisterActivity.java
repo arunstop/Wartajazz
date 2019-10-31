@@ -41,14 +41,6 @@ public class RegisterActivity extends Activity {
         editPhone = findViewById(R.id.phone);
         editAddress = findViewById(R.id.address);
 
-        tvLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(login);
-                finish();
-            }
-        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +104,7 @@ public class RegisterActivity extends Activity {
                 Call<SignupResponse> call = RetrofitClient
                         .getInstance()
                         .getApi()
-                        .createUser(username, password, email, fullname, phone, address);
+                        .createUser(username, password, email, fullname, phone, address,token);
 
 
                 final ProgressDialog progressDoalog;
@@ -147,5 +139,12 @@ public class RegisterActivity extends Activity {
                 });
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(login);
+        finish();
     }
 }

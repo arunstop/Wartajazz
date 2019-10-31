@@ -106,7 +106,7 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         LoginResponse loginResponse = response.body();
-
+                        Toast.makeText(LoginActivity.this, loginResponse.getMessage()+"", Toast.LENGTH_SHORT).show();
                         if (response.isSuccessful()) {
                             SharedPrefManager.getInstance(LoginActivity.this)
                                     .saveUser(loginResponse.getUser());

@@ -32,13 +32,18 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putInt("id", user.getId());
+        editor.putString("user_id", user.getUser_id());
+        editor.putString("username", user.getUsername());
         editor.putString("email", user.getEmail());
+        editor.putString("password", user.getPassword());
+        editor.putString("role_id", user.getRole_id());
+        editor.putString("token", user.getToken());
         editor.putString("fullname", user.getFullname());
-        editor.putString("phone", user.getPhone());
+        editor.putString("phone_number", user.getPhone_number());
+        editor.putString("address", user.getAddress());
         editor.putString("join_date", user.getJoin_date());
-        editor.putInt("role", user.getRole());
         editor.putString("thumbnail", user.getThumbnail());
+        editor.putString("provider_id", user.getProvider_id());
 
         editor.apply();
 
@@ -46,19 +51,28 @@ public class SharedPrefManager {
 
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("id", -1) != -1;
+        if (sharedPreferences.getString("user_id", null) == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public User getUser() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new User(
-                sharedPreferences.getInt("id", -1),
+                sharedPreferences.getString("user_id", null),
+                sharedPreferences.getString("username", null),
                 sharedPreferences.getString("email", null),
+                sharedPreferences.getString("password", null),
+                sharedPreferences.getString("role_id", null),
+                sharedPreferences.getString("token", null),
                 sharedPreferences.getString("fullname", null),
-                sharedPreferences.getString("phone", null),
+                sharedPreferences.getString("phone_number", null),
+                sharedPreferences.getString("address", null),
                 sharedPreferences.getString("join_date", null),
-                sharedPreferences.getInt("role", -1),
-                sharedPreferences.getString("thumbnail", null)
+                sharedPreferences.getString("thumbnail", null),
+                sharedPreferences.getString("provider_id", null)
         );
     }
 
@@ -69,7 +83,7 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public boolean saveDeviceToken(String token){
+    public boolean saveDeviceToken(String token) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TAG_TOKEN, token);
@@ -78,9 +92,9 @@ public class SharedPrefManager {
     }
 
     //this method will fetch the device token from shared preferences
-    public String getDeviceToken(){
+    public String getDeviceToken() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return  sharedPreferences.getString(TAG_TOKEN, null);
+        return sharedPreferences.getString(TAG_TOKEN, null);
     }
 
 }

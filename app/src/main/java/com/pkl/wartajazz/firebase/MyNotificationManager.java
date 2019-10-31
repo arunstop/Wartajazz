@@ -84,11 +84,11 @@ public class MyNotificationManager {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx);
         Notification notification;
-        notification = mBuilder.setSmallIcon(R.drawable.icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setSmallIcon(R.drawable.wartajazz).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
-                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.icon))
+                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.wartajazz))
                 .setContentText(message)
                 .build();
 

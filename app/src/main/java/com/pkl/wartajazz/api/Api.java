@@ -1,5 +1,6 @@
 package com.pkl.wartajazz.api;
 
+import com.pkl.wartajazz.models.EventResponse;
 import com.pkl.wartajazz.models.LoginResponse;
 import com.pkl.wartajazz.models.Obj;
 import com.pkl.wartajazz.models.SignupResponse;
@@ -46,6 +47,9 @@ public interface Api {
             @Field("displayName") String displayName,
             @Field("thumbnail") String thumbnail
     );
+
+    @GET("Event")
+    Call<EventResponse> showEvent();
 
 
     //WARNING! : Only Call this method using RetrofitRssClient

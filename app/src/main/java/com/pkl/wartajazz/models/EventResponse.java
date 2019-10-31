@@ -2,17 +2,19 @@ package com.pkl.wartajazz.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+import java.util.List;
+
+public class EventResponse {
 
     private boolean error;
     private String message;
     @SerializedName("data")
-    private User user;
+    private List<Event> event;
 
-    public LoginResponse(boolean error, String message, User data) {
+    public EventResponse(boolean error, String message, List<Event> event) {
         this.error = error;
         this.message = message;
-        this.user = data;
+        this.event = event;
     }
 
     public boolean isError() {
@@ -23,7 +25,7 @@ public class LoginResponse {
         return message;
     }
 
-    public User getUser() {
-        return user;
+    public List<Event> getEvent() {
+        return event;
     }
 }

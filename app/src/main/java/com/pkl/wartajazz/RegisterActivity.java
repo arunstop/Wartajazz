@@ -58,6 +58,12 @@ public class RegisterActivity extends Activity {
                 System.out.println("ATTA-token : "+token);
 
 
+                if (firstname.isEmpty()) {
+                    editfirstName.setError("Your Name required");
+                    editfirstName.requestFocus();
+                    return;
+                }
+
                 if (username.isEmpty()) {
                     editUsername.setError("Username required");
                     editUsername.requestFocus();
@@ -119,21 +125,22 @@ public class RegisterActivity extends Activity {
                     @Override
                     public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
                         SignupResponse signupResponse = response.body();
+                        Toast.makeText(RegisterActivity.this, signupResponse.getMsg()+"", Toast.LENGTH_LONG).show();
 
-                        if (signupResponse.isError()) {
+                        if (response.isSuccessful() && !signupResponse.isError()){
                             progressDoalog.dismiss();
-                            Toast.makeText(RegisterActivity.this, signupResponse.getMsg(), Toast.LENGTH_LONG).show();
-                        } else {
-                            progressDoalog.dismiss();
-                            Toast.makeText(RegisterActivity.this, signupResponse.getMsg(), Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
+                        }else {
+                            Toast.makeText(RegisterActivity.this, "\n"+response.message()+"", Toast.LENGTH_LONG).show();
+                            progressDoalog.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SignupResponse> call, Throwable t) {
+                        Toast.makeText(RegisterActivity.this, t.getMessage()+"", Toast.LENGTH_LONG).show();
                         progressDoalog.dismiss();
                     }
                 });

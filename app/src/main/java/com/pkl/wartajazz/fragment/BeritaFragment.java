@@ -46,12 +46,12 @@ public class BeritaFragment extends Fragment {
         pbLoading = view.findViewById(R.id.pbLoading);
 
 
-        setNewsItem();
+        showNews();
         return view;
 
     }
 
-    public void setNewsItem() {
+    public void showNews() {
         Call<Obj> call = RetrofitRssClient
                 .getInstance()
                 .getApi()
@@ -62,60 +62,60 @@ public class BeritaFragment extends Fragment {
             public void onResponse(Call<Obj> call, Response<Obj> response) {
                 if (response.isSuccessful() && isAdded()) {
 
-                final Obj obj = response.body();
+                    final Obj obj = response.body();
 
-                LinearLayout itemContainer = view.findViewById(R.id.itemContainer);
-                itemContainer.removeAllViews();
+                    LinearLayout itemContainer = view.findViewById(R.id.itemContainer);
+                    itemContainer.removeAllViews();
 
-                List<Item> itemResult = obj.getItem();
-                for (final Item item : itemResult) {
+                    List<Item> itemResult = obj.getItem();
+                    for (final Item item : itemResult) {
 
-                    LinearLayout newsView = (LinearLayout) getLayoutInflater().inflate(R.layout.template_item_news, null);
-                    LinearLayout newsItem = newsView.findViewById(R.id.llNewsItem);
-                    TextView newsTitle = newsView.findViewById(R.id.tvNewsTitle);
-                    TextView newsDate = newsView.findViewById(R.id.tvNewsDate);
-                    ImageView newsThumbnail = newsView.findViewById(R.id.tvNewsThumbnail);
+                        LinearLayout newsView = (LinearLayout) getLayoutInflater().inflate(R.layout.template_item_news, null);
+                        LinearLayout newsItem = newsView.findViewById(R.id.llNewsItem);
+                        TextView newsTitle = newsView.findViewById(R.id.tvNewsTitle);
+                        TextView newsDate = newsView.findViewById(R.id.tvNewsDate);
+                        ImageView newsThumbnail = newsView.findViewById(R.id.tvNewsThumbnail);
 
 
-                    newsItem.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent newWindow = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getLink()));
-                            //parsing link to WebActivity
+                        newsItem.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent newWindow = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getLink()));
+                                //parsing link to WebActivity
 //                            newWindow.putExtra("url", item.getLink());
-                            startActivity(newWindow);
+                                startActivity(newWindow);
+                            }
+                        });
+
+
+                        //MENGGANTI GAMBAR DENGAN PLUG IN PICASSO
+                        if (item.getThumbnail().equals("")) {
+
+                        } else {
+                            Picasso.with(getActivity()).load(item.getThumbnail()).fit().centerCrop().into(newsThumbnail);
                         }
-                    });
+                        newsTitle.setText(item.getTitle());
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyy", Locale.ENGLISH);
+                            Date pubDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(item.getPubDate());
+                            newsDate.setText(sdf.format(pubDate) + "");
 
+                        } catch (ParseException e) {
+                            Toast.makeText(context, e.getMessage() + "", Toast.LENGTH_SHORT).show();
+                        }
+                        itemContainer.addView(newsView);
 
-                    //MENGGANTI GAMBAR DENGAN PLUG IN PICASSO
-                    if (item.getThumbnail().equals("")) {
-
-                    } else {
-                        Picasso.with(getActivity()).load(item.getThumbnail()).fit().centerCrop().into(newsThumbnail);
                     }
-                    newsTitle.setText(item.getTitle());
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyy", Locale.ENGLISH);
-                        Date pubDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(item.getPubDate());
-                        newsDate.setText(sdf.format(pubDate)+"");
-
-                    } catch (ParseException e) {
-                        Toast.makeText(context, e.getMessage()+"", Toast.LENGTH_SHORT).show();
-                    }
-                    itemContainer.addView(newsView);
-
-                }
-                pbLoading.setVisibility(View.GONE);
-                }else{
-                    Toast.makeText(context, response.message()+"", Toast.LENGTH_SHORT).show();
+                    pbLoading.setVisibility(View.GONE);
+                } else {
+//                    Toast.makeText(context, response.message() + "", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Obj> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
+                showNews();
             }
         });
 

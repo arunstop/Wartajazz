@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,11 +14,10 @@ import android.widget.Toast;
 
 import com.pkl.wartajazz.R;
 import com.pkl.wartajazz.api.RetrofitClient;
-import com.pkl.wartajazz.models.Event;
 import com.pkl.wartajazz.models.EventDetail;
+import com.pkl.wartajazz.models.EventDetailResponse;
 import com.pkl.wartajazz.storage.SharedPrefManager;
-
-import java.util.List;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +32,8 @@ public class EventDetailFragment extends Fragment {
     int fragmentContainer;
     LinearLayout llEventDetailContainer;
     ProgressBar pbLoading;
+    TextView tvEventTitle, tvEventLocation, tvEventPrice, tvEventStart, tvEventEnd;
+    ImageView ivEventPoster;
 
     public EventDetailFragment() {
         // Required empty public constructor
@@ -56,7 +56,12 @@ public class EventDetailFragment extends Fragment {
 
         llEventDetailContainer = view.findViewById(R.id.llEventDetailContainer);
         pbLoading = view.findViewById(R.id.pbLoading);
-
+        tvEventTitle = view.findViewById(R.id.tvEventTitle);
+        ivEventPoster = view.findViewById(R.id.ivEventPoster);
+        tvEventLocation = view.findViewById(R.id.tvEventLocation);
+        tvEventPrice = view.findViewById(R.id.tvEventPrice);
+        tvEventStart = view.findViewById(R.id.tvEventStart);
+        tvEventEnd = view.findViewById(R.id.tvEventEnd);
 
         showEventDetail();
 
@@ -66,33 +71,48 @@ public class EventDetailFragment extends Fragment {
     public void showEventDetail() {
         llEventDetailContainer.removeAllViews();
 
-        for (int i=0;i<3;i++){
-            View child = getLayoutInflater().inflate(R.layout.template_item_event_detail, null);
+        Call<EventDetailResponse> call = RetrofitClient.getInstance().getApi().showDetailEvent(getEvent_id());
 
-            llEventDetailContainer.addView(child);
-        }
-        pbLoading.setVisibility(View.GONE);
-        Toast.makeText(context, getEvent_id() + "", Toast.LENGTH_SHORT).show();
-
-        Call<EventDetail> call = RetrofitClient.getInstance().getApi().showDetailEvent("123");
-
-        call.enqueue(new Callback<EventDetail>() {
+        call.enqueue(new Callback<EventDetailResponse>() {
             @Override
-            public void onResponse(Call<EventDetail> call, Response<EventDetail> response) {
-                Toast.makeText(context, response.message()+"", Toast.LENGTH_SHORT).show();
-                EventDetail edData = response.body();
-                if (response.isSuccessful() && isAdded()){
-                    Toast.makeText(context, edData.getEvent_id()+"", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context, response.message()+"", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<EventDetailResponse> call, Response<EventDetailResponse> response) {
+                EventDetailResponse edfData = response.body();
+                View child;
+                if (response.isSuccessful() && isAdded()) {
+                    tvEventTitle.setText(edfData.getEvent().getEvent_name());
+                    tvEventLocation.setText(edfData.getEvent().getLocation());
+                    tvEventPrice.setText(edfData.getEvent().getHtm());
+                    tvEventStart.setText(edfData.getEvent().getDate_start());
+                    tvEventEnd.setText(edfData.getEvent().getDate_end());
+
+                    if (!edfData.getEvent().getPoster().equals("")) {
+                        Picasso.with(context).load(edfData.getEvent().getPoster()).fit().into(ivEventPoster);
+                    }
+                    for (EventDetail edData : edfData.getEvent().getDetails()) {
+                        child = getLayoutInflater().inflate(R.layout.template_item_event_detail, null);
+                        TextView tvEventDetailArtist = child.findViewById(R.id.tvEventDetailArtist);
+                        TextView tvEventDetailShowtime = child.findViewById(R.id.tvEventDetailShowtime);
+                        TextView tvEventDetailCountry = child.findViewById(R.id.tvEventDetailCountry);
+
+                        tvEventDetailArtist.setText(edData.getArtist_name());
+                        tvEventDetailShowtime.setText(edData.getShow_time());
+                        tvEventDetailCountry.setText(edData.getCountry_of_origin());
+                        pbLoading.setVisibility(View.GONE);
+
+                        llEventDetailContainer.addView(child);
+                    }
+                } else {
+                    Toast.makeText(context, response.message() + "", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<EventDetail> call, Throwable t) {
-                Toast.makeText(context, t.getMessage()+"", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<EventDetailResponse> call, Throwable t) {
+                Toast.makeText(context, t.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                showEventDetail();
             }
         });
+
     }
 }
 

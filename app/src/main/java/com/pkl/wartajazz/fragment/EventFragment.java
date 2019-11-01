@@ -72,7 +72,11 @@ public class EventFragment extends Fragment {
                         }
                         tvEventLocation.setText(eventData.getLocation());
                         tvEventPrice.setText(eventData.getHtm());
-                        tvEventDuration.setText(eventData.getDate_start()+"\n"+eventData.getDate_end());
+                        String eventDuration = eventData.getDate_start()+"\n"+eventData.getDate_end();
+                        if(eventData.getDate_start().equals(eventData.getDate_end())){
+                            eventDuration = eventData.getDate_start();
+                        }
+                        tvEventDuration.setText(eventDuration);
 
                         llEventItem.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -97,6 +101,7 @@ public class EventFragment extends Fragment {
             @Override
             public void onFailure(Call<EventResponse> call, Throwable t) {
                 Toast.makeText(context, t.getMessage() + "", Toast.LENGTH_SHORT).show();
+            showEvents();
             }
         });
 

@@ -79,13 +79,13 @@ public class LoginActivity extends Activity {
                 Call<LoginResponse> call = RetrofitClient.getInstance().getApi().userLogin(username, password,token);
 
                 // Set up progress before call
-                final ProgressDialog progressDoalog;
-                progressDoalog = new ProgressDialog(LoginActivity.this);
-                progressDoalog.setMessage("Processing....");
-                progressDoalog.setIndeterminate(false);
-                progressDoalog.setCancelable(false);
+                final ProgressDialog progressDialog;
+                progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setMessage("Processing....");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setCancelable(false);
                 // show it
-                progressDoalog.show();
+                progressDialog.show();
                 //bypass login
 //                SharedPrefManager.getInstance(LoginActivity.this)
 //                        .saveUser(new User(1
@@ -106,23 +106,22 @@ public class LoginActivity extends Activity {
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         LoginResponse loginResponse = response.body();
                         Toast.makeText(LoginActivity.this, loginResponse.getMessage()+"", Toast.LENGTH_SHORT).show();
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful()&& !loginResponse.isError()) {
                             SharedPrefManager.getInstance(LoginActivity.this)
                                     .saveUser(loginResponse.getUser());
 
-                            progressDoalog.dismiss();
+                            progressDialog.dismiss();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         } else {
-                            progressDoalog.dismiss();
-                            Toast.makeText(LoginActivity.this, "Username atau Password Salah!", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        progressDoalog.dismiss();
+                        progressDialog.dismiss();
                         System.out.println("Failure");
                     }
                 });

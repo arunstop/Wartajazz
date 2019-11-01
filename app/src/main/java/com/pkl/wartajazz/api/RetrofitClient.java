@@ -11,7 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-        private static final String BASE_URL = "http://wartajazz.000webhostapp.com/Api/";
+//        private static final String BASE_URL = "http://wartajazz.000webhostapp.com/Api/";
+        private static final String BASE_URL = "http://wartajazz.herokuapp.com/Api/";
 //    private static final String BASE_URL = "http://192.168.1.67/pushwarta/";
     //    private static final String BASE_URL = "http://192.168.66.11/wartajazz-api-master/Api/";
     private static RetrofitClient mInstance;
@@ -19,23 +20,6 @@ public class RetrofitClient {
 
 
     private RetrofitClient() {
-//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .addInterceptor(
-//                        new Interceptor() {
-//                            @Override
-//                            public Response intercept(Chain chain) throws IOException {
-//                                Request original = chain.request();
-//
-//                                Request.Builder requestBuilder = original.newBuilder()
-////                                        .addHeader("Authorization", AUTH)
-//                                        .method(original.method(), original.body());
-//
-//                                Request request = requestBuilder.build();
-//                                return chain.proceed(request);
-//                            }
-//                        }
-//                ).build();
-
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

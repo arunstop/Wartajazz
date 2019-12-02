@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "374843417827",
+    "firebase_url": "https://warta-jazz.firebaseio.com",
+    "project_id": "warta-jazz",
+    "storage_bucket": "warta-jazz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374843417827:android:44328e118986e815d0d1d6",
+        "android_client_info": {
+          "package_name": "com.pkl.wartajazz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374843417827-752tecasd8cmdlkj789c2ff9n3i8vc5d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pkl.wartajazz",
+            "certificate_hash": "58c5689c0345c73eb2cd92a22ec95938efc2ff67"
+          }
+        },
+        {
+          "client_id": "374843417827-823tsudo3mi6rh3psc7aq78s6movnlv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq4cG8PTkXPI5zX97A613kXDPQHeFIa5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374843417827-823tsudo3mi6rh3psc7aq78s6movnlv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

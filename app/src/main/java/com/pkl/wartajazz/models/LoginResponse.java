@@ -6,7 +6,7 @@ public class LoginResponse {
 
     private boolean error;
     private String message;
-    @SerializedName("data")
+    @SerializedName(value="data", alternate={"user"})
     private User user;
 
     public LoginResponse(boolean error, String message, User data) {

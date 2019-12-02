@@ -38,7 +38,8 @@ public class VideoFragment extends Fragment {
     private Context context;
     private LinearLayout llVideoContainer;
     private ProgressBar pbLoading;
-    private String urlAPI = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUz0T5_-9CByB9GNW-LZG_8g&key=AIzaSyD7ubYW6XJgv3rqZOmb1jsRfMBySZ1DB2o";
+//    private String urlAPI = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUz0T5_-9CByB9GNW-LZG_8g&key=AIzaSyD7ubYW6XJgv3rqZOmb1jsRfMBySZ1DB2o";
+    private String urlAPI = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyD7ubYW6XJgv3rqZOmb1jsRfMBySZ1DB2o&channelId=UCz0T5_-9CByB9GNW-LZG_8g&part=snippet&type=video&order=date&maxResults=20";
 
     @Nullable
     @Override
@@ -71,13 +72,14 @@ public class VideoFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("items");
+//                    Toast.makeText(context, jsonArray+"", Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         child = getLayoutInflater().inflate(R.layout.template_item_video, null);
                         llVideoItem = child.findViewById(R.id.llVideoItem);
                         ivVideoThumbnail = child.findViewById(R.id.ivVideoThumbnail);
                         tvVideoTitle = child.findViewById(R.id.tvVideoTitle);
-
                         //mengambil value dari API
+
 
                         videoTitle = jsonArray.getJSONObject(i)
                                 .getJSONObject("snippet")
@@ -87,11 +89,19 @@ public class VideoFragment extends Fragment {
                                 .getJSONObject("thumbnails")
                                 .getJSONObject("default")
                                 .getString("url");
+                        //channels playlist videos gunakan url_api yang pertama
+//                        videoLink = "http://www.youtube.com/watch?v="
+//                                + jsonArray.getJSONObject(i)
+//                                .getJSONObject("snippet")
+//                                .getJSONObject("resourceId")
+//                                .getString("videoId");
+
+                        //channels search videos gunakan url_api yang kedua
                         videoLink = "http://www.youtube.com/watch?v="
                                 + jsonArray.getJSONObject(i)
-                                .getJSONObject("snippet")
-                                .getJSONObject("resourceId")
+                                .getJSONObject("id")
                                 .getString("videoId");
+
 
                         //temp variables
                         final String finalVideoLink = videoLink;
@@ -113,7 +123,7 @@ public class VideoFragment extends Fragment {
                             Picasso.with(getActivity()).load(videoThumbnail).fit().centerCrop().into(ivVideoThumbnail);
                         }
 
-                        //menambah view pada llVideoContainer(menambah list video)
+//                        menambah view pada llVideoContainer(menambah list video)
                         llVideoContainer.addView(child);
                     }
 //                    Toast.makeText(context, jsonArray + "", Toast.LENGTH_SHORT).show();
@@ -122,12 +132,14 @@ public class VideoFragment extends Fragment {
                     pbLoading.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(context, e.getMessage()+"", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                pbLoading.setVisibility(View.GONE);
             }
         });
         int socketTimeout = 6000;

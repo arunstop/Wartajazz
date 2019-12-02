@@ -81,7 +81,7 @@ public class ProfileFragment extends Fragment {
 
 
         //turn off notification
-        token = FirebaseInstanceId.getInstance().getToken();
+        token = session.getDeviceToken();
         System.out.println("ATTA-token : " + token);
 
         if (session.getDeviceToken() == null) {
@@ -108,7 +108,6 @@ public class ProfileFragment extends Fragment {
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                            session.saveDeviceToken(token);
                             Toast.makeText(context, "Notification is ON", Toast.LENGTH_SHORT).show();
                         }
 
@@ -123,7 +122,6 @@ public class ProfileFragment extends Fragment {
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                            session.saveDeviceToken(null);
                             Toast.makeText(context, "Notification is OFF", Toast.LENGTH_SHORT).show();
                         }
 
@@ -151,7 +149,7 @@ public class ProfileFragment extends Fragment {
                     public void run() {
                         handler.post(runnable);
                     }
-                }, 0, 2000);
+                }, 1000, 1000);
             }
         });
 

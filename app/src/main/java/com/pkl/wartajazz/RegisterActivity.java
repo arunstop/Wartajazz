@@ -113,13 +113,13 @@ public class RegisterActivity extends Activity {
                         .createUser(username, password, email, fullname, phone, address,token);
 
 
-                final ProgressDialog progressDoalog;
-                progressDoalog = new ProgressDialog(RegisterActivity.this);
-                progressDoalog.setMessage("Processing....");
-                progressDoalog.setIndeterminate(false);
-                progressDoalog.setCancelable(false);
+                final ProgressDialog progressDialog;
+                progressDialog = new ProgressDialog(RegisterActivity.this);
+                progressDialog.setMessage("Processing....");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setCancelable(false);
                 // show it
-                progressDoalog.show();
+                progressDialog.show();
 
                 call.enqueue(new Callback<SignupResponse>() {
                     @Override
@@ -128,20 +128,20 @@ public class RegisterActivity extends Activity {
                         Toast.makeText(RegisterActivity.this, signupResponse.getMsg()+"", Toast.LENGTH_LONG).show();
 
                         if (response.isSuccessful() && !signupResponse.isError()){
-                            progressDoalog.dismiss();
+                            progressDialog.dismiss();
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         }else {
-                            Toast.makeText(RegisterActivity.this, "\n"+response.message()+"", Toast.LENGTH_LONG).show();
-                            progressDoalog.dismiss();
+//                            Toast.makeText(RegisterActivity.this, response.message()+"", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SignupResponse> call, Throwable t) {
                         Toast.makeText(RegisterActivity.this, t.getMessage()+"", Toast.LENGTH_LONG).show();
-                        progressDoalog.dismiss();
+                        progressDialog.dismiss();
                     }
                 });
             }

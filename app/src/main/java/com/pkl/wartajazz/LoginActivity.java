@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.pkl.wartajazz.api.RetrofitClient;
 import com.pkl.wartajazz.models.LoginResponse;
@@ -30,10 +31,14 @@ import retrofit2.Response;
 
 public class LoginActivity extends Activity {
 
-    private Button login, googleLogin,btnRegister;
+    ProgressDialog progressDialog;
+    private Button login, googleLogin, btnRegister;
     private EditText editTextUsername, editTextPassword;
+    private TextView forgetPass;
     private GoogleSignInClient googleSignInClient;
     private Context context;
+    private String token;
+    private SharedPrefManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +46,28 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         context = LoginActivity.this;
+        session = SharedPrefManager.getInstance(context);
+        forgetPass = findViewById(R.id.forgetPass);
         login = findViewById(R.id.login);
         googleLogin = findViewById(R.id.google_login);
         editTextUsername = findViewById(R.id.user);
         editTextPassword = findViewById(R.id.pass);
         btnRegister = findViewById(R.id.register);
 
+        token = FirebaseInstanceId.getInstance().getToken();
+        session.saveDeviceToken(token);
+        System.out.println("ATTA-token : " + token);
+
+
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("Processing....");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final String token = FirebaseInstanceId.getInstance().getToken();
-                SharedPrefManager.getInstance(context).saveDeviceToken(token);
-                System.out.println("ATTA-token : "+token);
 
                 String username = editTextUsername.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
@@ -76,7 +90,7 @@ public class LoginActivity extends Activity {
                     return;
                 }
 
-                Call<LoginResponse> call = RetrofitClient.getInstance().getApi().userLogin(username, password,token);
+                Call<LoginResponse> call = RetrofitClient.getInstance().getApi().userLogin(username, password, token);
 
                 // Set up progress before call
                 final ProgressDialog progressDialog;
@@ -87,7 +101,7 @@ public class LoginActivity extends Activity {
                 // show it
                 progressDialog.show();
                 //bypass login
-//                SharedPrefManager.getInstance(LoginActivity.this)
+//                session
 //                        .saveUser(new User(1
 //                                , "bypass@bypass.com"
 //                                , "Tresspasser"
@@ -105,10 +119,9 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         LoginResponse loginResponse = response.body();
-                        Toast.makeText(LoginActivity.this, loginResponse.getMessage()+"", Toast.LENGTH_SHORT).show();
-                        if (response.isSuccessful()&& !loginResponse.isError()) {
-                            SharedPrefManager.getInstance(LoginActivity.this)
-                                    .saveUser(loginResponse.getUser());
+                        Toast.makeText(LoginActivity.this, loginResponse.getMessage() + "", Toast.LENGTH_SHORT).show();
+                        if (response.isSuccessful() && !loginResponse.isError()) {
+                            session.saveUser(loginResponse.getUser());
 
                             progressDialog.dismiss();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -143,11 +156,21 @@ public class LoginActivity extends Activity {
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
+
         googleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 101);
+                progressDialog.show();
+                startActivityForResult(googleSignInClient.getSignInIntent(), 101);
+            }
+        });
+
+        forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register = new Intent(LoginActivity.this, ForgetPassActivity.class);
+                startActivity(register);
+                finish();
             }
         });
 
@@ -165,6 +188,7 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
@@ -178,10 +202,16 @@ public class LoginActivity extends Activity {
                     } catch (ApiException e) {
                         // The ApiException status code indicates the detailed failure reason.
                         Log.w("Google Login", "signInResult:failed code=" + e.getStatusCode());
+                        Toast.makeText(context, "Sign In failed, error code = " + e.getMessage() + "", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }
                     break;
             }
+        } else {
+            Toast.makeText(context, "Sign In failed", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
         }
+
     }
 
 
@@ -192,55 +222,50 @@ public class LoginActivity extends Activity {
         String name = googleSignInAccount.getDisplayName();
         String thumbnail = photoUrl.toString();
 
-        Call<LoginResponse> call = RetrofitClient.getInstance().getApi().googleAuth(provider_id, email, name, thumbnail);
+        Call<LoginResponse> call = RetrofitClient.getInstance().getApi().googleAuth(provider_id, email, name, thumbnail, token);
 
         // Set up progress before call
-        final ProgressDialog progressDoalog;
-        progressDoalog = new ProgressDialog(LoginActivity.this);
-        progressDoalog.setMessage("Processing....");
-        progressDoalog.setIndeterminate(false);
-        progressDoalog.setCancelable(false);
-        // show it
-        progressDoalog.show();
 
-        //bypass login
-//        SharedPrefManager.getInstance(LoginActivity.this)
-//                .saveUser(new User(1
-//                        , "bypass@bypass.com"
-//                        , "Tresspasser"
-//                        , "0123456789"
-//                        , "2019-09-09"
-//                        , 1
-//                        , "123"));
-//
-//        progressDoalog.dismiss();
-//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(intent);
+        // show it
+//        progressDialog.show();
+//        Toast.makeText(context, provider_id+"\n"+email+"\n"+name+"\n"+thumbnail+"\n"+token+"", Toast.LENGTH_SHORT).show();
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
+                if (response.isSuccessful() && !loginResponse.isError()) {
+                    session.saveUser(loginResponse.getUser());
+                    //save Token
+                    Call<LoginResponse> call1 = RetrofitClient.getInstance().getApi().updateToken(session.getUser().getUsername(), token);
 
-                if (!loginResponse.isError()) {
-                    SharedPrefManager.getInstance(LoginActivity.this)
-                            .saveUser(loginResponse.getUser());
+                    call1.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                            Toast.makeText(context, "Notification is ON", Toast.LENGTH_SHORT).show();
+                        }
 
-                    progressDoalog.dismiss();
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            Toast.makeText(context, t.getMessage() + "", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Toast.makeText(LoginActivity.this, (loginResponse.getMessage() == null ? "Welcome" : loginResponse.getMessage()) + "", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else {
-                    progressDoalog.dismiss();
-                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(LoginActivity.this, response.message()+"-", Toast.LENGTH_LONG).show();
+                    googleSignInClient.signOut();
                 }
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                progressDoalog.dismiss();
-                System.out.println("Failure");
+                progressDialog.dismiss();
+                Toast.makeText(LoginActivity.this, t.getMessage() + "", Toast.LENGTH_LONG).show();
+
             }
         });
     }

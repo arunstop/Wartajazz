@@ -58,7 +58,16 @@ public interface Api {
             @Field("providerId") String providerId,
             @Field("email") String email,
             @Field("displayName") String displayName,
-            @Field("thumbnail") String thumbnail
+            @Field("thumbnail") String thumbnail,
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("Auth/resetPass")
+    Call<LoginResponse> resetPass(
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("confirm_password") String confirm_password
     );
 
     @GET("Event")
